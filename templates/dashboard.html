@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-3xl mb-6">Dashboard</h1>
+<div class="grid grid-cols-2 gap-4">
+    {% if user.role in 'receptionist,admin' %}
+        <a href="{% url 'onboard_parent' %}" class="bg-blue-600 text-white p-4 rounded">Onboard Parent</a>
+        <a href="{% url 'submit_complaint' %}" class="bg-blue-600 text-white p-4 rounded">Submit Complaint</a>
+    {% endif %}
+    {% if user.role in 'teacher,receptionist,admin' %}
+        <a href="{% url 'send_message' %}" class="bg-blue-600 text-white p-4 rounded">Send Message</a>
+        <a href="{% url 'chatbot' %}" class="bg-blue-600 text-white p-4 rounded">Chatbot</a>
+    {% endif %}
+    {% if user.role in 'accountant,admin' %}
+        <a href="{% url 'create_invoice' %}" class="bg-blue-600 text-white p-4 rounded">Create Invoice</a>
+    {% endif %}
+    {% if user.role == 'admin' %}
+        <a href="{% url 'generate_report' %}" class="bg-blue-600 text-white p-4 rounded">Generate Report</a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-3xl mb-6">Communication</h1>
+<div class="grid grid-cols-2 gap-4">
+    <div>
+        <h2 class="text-xl mb-4">Send Message</h2>
+        <form method="post" action="{% url 'send_message' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block">Recipient</label>
+                <select name="recipient" class="w-full p-2 border rounded">
+                    {% for parent in parents %}
+                        <option value="{{ parent.id }}">{{ parent.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block">Message Type</label>
+                <select name="message_type" class="w-full p-2 border rounded">
+                    <option value="sms">SMS</option>
+                    <option value="email">Email</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block">Content</label>
+                <textarea name="content" class="w-full p-2 border rounded"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white p-2 rounded">Send</button>
+        </form>
+    </div>
+    <div>
+        <h2 class="text-xl mb-4">Chatbot</h2>
+        <form method="post" action="{% url 'chatbot' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block">Message</label>
+                <textarea name="message" class="w-full p-2 border rounded"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white p-2 rounded">Ask Chatbot</button>
+        </form>
+        {% if bot_response %}
+            <div class="mt-4 p-4 bg-gray-200 rounded">
+                <p>{{ bot_response }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="mt-6">
+    <h2 class="text-xl mb-4">In-App Chat</h2>
+    <div id="chat-box" class="h-64 overflow-y-scroll p-4 bg-gray-200 rounded"></div>
+    <form id="chat-form">
+        <input type="hidden" id="recipient-id" value="1">
+        <input type="text" id="chat-message" class="w-full p-2 border rounded" placeholder="Type your message">
+        <button type="submit" class="bg-blue-600 text-white p-2 rounded mt-2">Send</button>
+    </form>
+</div>
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

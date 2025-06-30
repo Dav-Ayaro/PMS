@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-3xl mb-6">Reports</h1>
+<form method="get" action="{% url 'generate_report' %}">
+    <div class="mb-4">
+        <label class="block">Report Type</label>
+        <select name="report_type" class="w-full p-2 border rounded">
+            <option value="engagement">Engagement</option>
+            <option value="payment">Payment</option>
+            <option value="academic">Academic</option>
+            <option value="complaint">Complaint</option>
+        </select>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white p-2 rounded">Generate</button>
+</form>
+<div class="mt-6">
+    {% for report in reports %}
+        <div class="p-4 bg-white rounded shadow mb-4">
+            <h2 class="text-xl">{{ report.report_type|title }} Report ({{ report.generated_at }})</h2>
+            <pre>{{ report.data }}</pre>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+```
+
+#### static/css/styles.css
+```
+/* Additional Tailwind customizations */
+body {
+    font-family: 'Arial', sans-serif;
+}

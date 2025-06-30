@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-3xl mb-6">Onboard Parent</h1>
+<form method="post" class="max-w-md bg-white p-6 rounded shadow">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label class="block">Parent Name</label>
+        <input type="text" name="name" class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label class="block">Email</label>
+        <input type="email" name="email" class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label class="block">Phone</label>
+        <input type="text" name="phone" class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label class="block">Student Name</label>
+        <input type="text" name="student_name" class="w-full p-2 border rounded">
+    </div>
+    <button type="submit" class="bg-blue-600 text-white p-2 rounded">Onboard</button>
+</form>
+{% endblock %}
