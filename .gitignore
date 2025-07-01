@@ -5,3 +5,4 @@
 */migrations/*.pyc
 */migrations/__pycache__/
 /PMS/settings.py
+.env
