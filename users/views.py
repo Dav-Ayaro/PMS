@@ -7,13 +7,18 @@ import random
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not username or not password:
+            return render(request, 'login.html', {'error': 'Username and password are required.'})
+
         user = authenticate(request, username=username, password=password)
         if user:
             otp = str(random.randint(100000, 999999))
             user.otp = otp
             user.save()
+
             send_mail(
                 'Your OTP Code',
                 f'Your OTP is {otp}',
@@ -22,20 +27,31 @@ def login_view(request):
                 fail_silently=False,
             )
             return render(request, 'otp.html', {'username': username})
+        else:
+            return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
 def verify_otp(request):
+    User = username
     if request.method == 'POST':
-        username = request.POST['username']
-        otp = request.POST['otp']
-        user = authenticate(request, username=username, password=None)
-        if user and user.otp == otp:
+        username = request.POST.get('username')
+        otp = request.POST.get('otp')
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return render(request, 'otp.html', {'username': username, 'error': 'User not found'})
+
+        if user.otp == otp:
             login(request, user)
             user.otp = None
             user.save()
             return redirect('dashboard')
-        return render(request, 'otp.html', {'username': username, 'error': 'Invalid OTP'})
-    return render(request, 'otp.html', {'username': request.POST.get('username', '')})
+        else:
+            return render(request, 'otp.html', {'username': username, 'error': 'Invalid OTP'})
+
+    return render(request, 'otp.html')
+
 
 @login_required
 def dashboard(request):
