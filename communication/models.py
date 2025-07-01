@@ -14,3 +14,6 @@ class Message(models.Model):
     content = models.TextField()
     sent_at = models.DateTimeField(auto_now_add=True)
     delivered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.content[:50]

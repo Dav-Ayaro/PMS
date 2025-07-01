@@ -4,7 +4,7 @@ from django.core.asgi import get_asgi_application
 # from channels.auth import AuthMiddlewareStack
 import communication.routing
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'parent_management.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PMS.settings')
 
 # application = ProtocolTypeRouter({
 #     "http": get_asgi_application(),
@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'your-secret-key-here'
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'parent_management.urls'
+ROOT_URLCONF = 'PMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
